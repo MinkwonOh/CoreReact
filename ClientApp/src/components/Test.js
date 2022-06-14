@@ -46,7 +46,7 @@ export class Test extends Component {
     }
 
     async gettingData() {
-        const response = await fetch('test'); // error
+        const response = await fetch('test');
         const data = await response.json();
         const responseDebug = await fetch('test');
         this.setState({testArray: data, loading: false});
