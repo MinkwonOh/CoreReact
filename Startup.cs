@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 
 namespace CoreReact
 {
@@ -23,10 +24,15 @@ namespace CoreReact
       // Cors 임시허용
       services.AddCors(c =>
       {
-       c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
       });
 
-      services.AddControllersWithViews();
+      // Json Serializer
+      services.AddControllersWithViews().AddNewtonsoftJson(options =>
+      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+        .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+        = new DefaultContractResolver()
+      );
 
       // In production, the React files will be served from this directory
       services.AddSpaStaticFiles(configuration =>
@@ -38,6 +44,7 @@ namespace CoreReact
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+      // Cors 임시허용
       app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
       if (env.IsDevelopment())

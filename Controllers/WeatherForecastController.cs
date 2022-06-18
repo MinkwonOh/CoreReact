@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreReact.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace CoreReact.Controllers
 {
-    [ApiController]
+  [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
